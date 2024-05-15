@@ -13,7 +13,7 @@ export default function inputNumberView({rowData, index, element, map}) {
     const value = map?.get(key_index)
     return (
         <NFormItem  path={key_index} >
-            <NInputNumber id={key_index} min={1}  max={10} value={value} onUpdateValue={onUpdateValue} placeholder="请输入" />
+            <NInputNumber id={key_index} min={1}  max={100} value={value} onUpdateValue={onUpdateValue} placeholder="请输入" />
         </NFormItem>
     )
 }

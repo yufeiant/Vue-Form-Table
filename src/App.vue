@@ -1,9 +1,47 @@
 <script lang="tsx" setup>
 import STable from './components/STable/index.vue'
 import {tableColumn} from "@components/STable/types"
-import {getFormRules} from './types'
+import {getFormRules, VALIDATE_KEYS} from './types'
 import type {GlobalThemeOverrides,NButton,NConfigProvider,NForm} from "naive-ui"
 import {ref,computed} from 'vue'
+import {disposeArrayToMap} from "@utils/formTable";
+type TItem = {
+    age:number|null,
+    name:string,
+    graduate:1|0,
+    school:string|undefined,
+    describe:string
+}
+
+const formRef = ref();
+//表格的数据
+const dataRef =  ref<TItem[]>([]);
+//表格数据对应的map数据
+const dataMapRef = ref(new Map())
+//基于map生成的 表单校验的数据
+const formRules = computed(() => {
+    return getFormRules(dataMapRef.value)
+})
+
+const validate = () => {
+    return new Promise((resolve, reject) => {
+        formRef.value?.validate(async (errors: any) => {
+            if (!errors) {
+                resolve('success')
+            } else {
+                reject('error')
+                const err = errors[0]
+                return {errors, err}
+            }
+        })
+    })
+}
+
+const add =()=>{
+    const obj:TItem = {age: null, describe: "", graduate: 1, name: "", school:undefined}
+    dataRef.value.push(obj)
+    dataMapRef.value = disposeArrayToMap(dataRef.value,VALIDATE_KEYS)
+}
 const columns: Array<tableColumn> = [
     {
         title: "序号",
@@ -15,25 +53,24 @@ const columns: Array<tableColumn> = [
         }
     },
     {
-        key: "code",
+        key: "name",
         renderType: 'inputView',
-        width: 250,
         resizable: true,
-        fixed: 'left',
+        width:200,
         title() {
             return (
                 <div>
                     <span style="color:red">*</span>
-                    姓名
+                    中文名
                 </div>
             )
         }
     },
     {
-        key: "name",
+        key: "age",
         renderType: 'inputNumberView',
-        width: 250,
         resizable: true,
+        width:200,
         title() {
             return (
                 <div>
@@ -57,7 +94,9 @@ const columns: Array<tableColumn> = [
     },
     {
         key: "school",
-        renderType: 'switchView',
+        renderType: 'selectView',
+        width:200,
+        selectOptions:[{label:"清华",value:'1'},{label: "北大",value:'0'}],
         title() {
             return (
                 <div>
@@ -69,23 +108,27 @@ const columns: Array<tableColumn> = [
     },
     {
         title: "描述",
-        key: "descrip",
+        key: "describe",
         renderType:'inputView',
         resizable:true,
     },
     {
         title: "操作",
         key: "dispose",
-        fixed: 'right',
         width: 70,
-        render(rowData) {
+        render(rowData,index) {
             /**
              * 当点击删除的时候
              * 01-删除选中的数据
-             * 03-删除map中的值
+             * 02-基于新的值 生成map
+             *
+             * 数据的保存实际 data和map是同步的 所以我们这里并不需要单独删除map中的数据
+             * 直接基于data重新生成就好
              */
             const onClickDelete = () => {
-
+                const array = dataRef.value.filter((item,i)=>i !== index)
+                dataRef.value = array;
+                dataMapRef.value = disposeArrayToMap(dataRef.value,VALIDATE_KEYS)
             }
             return (
                 <NButton style="padding-left: 8px;padding-right: 8px" quaternary type="info"
@@ -109,34 +152,17 @@ const config:GlobalThemeOverrides = {
     }
 };
 
-const formRef = ref();
-const dataRef =  ref([]);
-const dataMapRef = ref(new Map())
-const formRules = computed(() => {
-    return getFormRules(dataMapRef.value)
-})
 
-const validate = () => {
-    return new Promise((resolve, reject) => {
-        formRef.value?.validate(async (errors: any) => {
-            if (!errors) {
-                resolve('success')
-            } else {
-                reject('error')
-                const err = errors[0]
-                return {errors, err}
-            }
-        })
-    })
-}
 
 </script>
 
 <template>
     <div class="table_container">
         <div class="flex_row">
-            <NButton @click="validate" type="info">保存</NButton>
-            <NButton @click="validate" type="primary">新增</NButton>
+            <NSpace>
+                <NButton @click="add" >新增</NButton>
+                <NButton @click="validate" type="info">保存</NButton>
+            </NSpace>
         </div>
         <NConfigProvider :theme-overrides="config">
             <NForm

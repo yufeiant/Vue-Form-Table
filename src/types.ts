@@ -3,10 +3,9 @@ import {FormRules} from "naive-ui"
 import useValidateUtils from "@utils/useValidateUtils"
 //校验的字段 和 下面的 校验配置要保持同步
 //同时会用于生成map的字段 
-export const DIMENSIONS_VALIDATE_KEYS = ['code', 'name',]
+export const VALIDATE_KEYS = ['age', 'name','graduate','school']
 
-//校验维度列英文名的公共对象
-const code = (map:Map<string,string>, key:string) => {
+const age = (map:Map<string,string>, key:string) => {
     return {
         required: true,
         trigger: ["blur", "input"],
@@ -14,16 +13,12 @@ const code = (map:Map<string,string>, key:string) => {
         validator: async () => {
             const value = map.get(key)
             const {add, validate} = useValidateUtils();
-            add({rule: "isEmpty", errMsg: "请输入姓名"});
-            add({rule: "max", length: 50, errMsg: "最多可以输入50位"});
-            add({rule: "isFirstOrLastLine"});
-            add({rule: "enNumberLine"});
-            add({rule: "noNumber"});
+            add({rule: "isEmpty", errMsg: "请输入年龄"});
             return await validate(value);
         },
     }
 }
-//校验维度列中文名的公共对象
+
 const name = (map:Map<string,string>, key:string) => {
     return {
         required: true,
@@ -32,34 +27,49 @@ const name = (map:Map<string,string>, key:string) => {
         validator: async () => {
             const value = map.get(key)
             const {add, validate} = useValidateUtils();
-            add({rule: "isEmpty", errMsg: "请输入表名"});
-            add({rule: "max", length: 50, errMsg: "最多可以输入50位"});
-            add({rule: "isFirstOrLastLine"});
-            add({rule: "enCnNumberLine"});
+            add({rule: "isEmpty", errMsg: "请输入姓名"});
             return await validate(value);
         },
     }
 }
-//数据类型
-const type = (map:Map<string,string>, key:string) => {
+
+//是否毕业
+const graduate = (map:Map<string,string>, key:string) => {
     return {
         required: true,
         trigger: ["blur", "input"],
-        type: "number",
+        type: "string",
         validator: async () => {
             const value = map.get(key)
             const {add, validate} = useValidateUtils();
-            add({rule: "isEmpty", errMsg: "请选择数据类型"});
+            add({rule: "isEmpty", errMsg: "请选择"});
+            return await validate(value);
+        },
+    }
+}
+
+//毕业学校
+const school = (map:Map<string,string>, key:string) => {
+    return {
+        required: true,
+        trigger: ["blur", "input"],
+        type: "string",
+        validator: async () => {
+            const value = map.get(key)
+            const {add, validate} = useValidateUtils();
+            add({rule: "isEmpty", errMsg: "请选择"});
             return await validate(value);
         },
     }
 }
 
 const formObj: any = {
-    code,
+    age,
     name,
-    type,
+    graduate,
+    school
 }
+
 /**
  *
  * 通过遍历map的key值 拿到数组拼接以后存储到map中的key 也就是  key+"_"+index

@@ -8,8 +8,8 @@ import switchView from "./conponents/form/switchView"
 import inputNumberView from './conponents/form/inputNumberView'
 
 export type renderType =
-    "default"
-    | "button"
+    "defaultView"
+    | "buttonView"
     | 'inputView'
     | 'selectView'
     | 'switchView'
@@ -31,13 +31,10 @@ export interface IProps {
 export const Config = {
     defaultView,
     buttonView,
-    //表单输入 input 框
+
     inputView,
-    //表单输入 select 框
     selectView,
-    //表单输入 switch 框
     switchView,
-    //表单输入 数字输入框
     inputNumberView,
 }
 

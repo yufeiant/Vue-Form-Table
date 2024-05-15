@@ -23,10 +23,9 @@ const getDisposeColumns = () => {
 }
 </script>
 <template>
-    <NDataTable :remote="true"
+    <NDataTable
          :columns="getDisposeColumns()"
          :single-line="true"
-         :bordered="false"  flex-height
       >
     </NDataTable>
 </template>
