@@ -1,0 +1,22 @@
+
+.table_table_view {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.table_table_logo_style {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+}
+
+.table_table_text_color {
+    font-family: PingFang SC;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 22px;
+    letter-spacing: 0px;
+    color: #1178E5;
+    cursor: pointer;
+}

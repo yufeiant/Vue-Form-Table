@@ -13,13 +13,67 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-
+    "jsxImportSource": "vue",
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@": [
+        "src"
+      ],
+      "@types": [
+        "src/types"
+      ],
+      "@store": [
+        "src/store"
+      ],
+      "@router": [
+        "src/router"
+      ],
+      "@api": [
+        "src/api"
+      ],
+      "@api/*": [
+        "src/api/*"
+      ],
+      "@utils": [
+        "src/utils"
+      ],
+      "@utils/*": [
+        "src/utils/*"
+      ],
+      "@img/*": [
+        "src/assets/img/*"
+      ],
+      "@stores": [
+        "src/stores"
+      ],
+      "@stores/*": [
+        "src/stores/*"
+      ],
+      "@components": [
+        "src/components"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@modules": [
+        "src/modules"
+      ],
+      "@modules/*": [
+        "src/modules/*"
+      ],
+      "@config": [
+        "src/config"
+      ],
+      "@config/*": [
+        "src/config/*"
+      ],
+    }
   },
+
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
