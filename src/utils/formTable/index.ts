@@ -47,7 +47,6 @@ export const disposeArrayToMap = (array: any, keys: Array<string>,idKey?:string)
     //把数组的数据转换成Map
     array.forEach((item:any, index:number) => {
         keys.forEach(key => {
-            const _index = idKey && item[idKey] ? item[idKey] : index;
             const key_index = getKeyIndex(key, index)
             map.set(key_index, item[key])
         })

@@ -152,8 +152,6 @@ const config:GlobalThemeOverrides = {
     }
 };
 
-
-
 </script>
 
 <template>
